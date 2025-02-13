@@ -40,13 +40,21 @@ const Header = ({ language, handleLanguageChange }: any) => {
           >
             {t.events}
           </Button>
+
+          <Button
+            variant="ghost"
+            className="text-purple-600 hover:text-purple-800 hover:bg-purple-100"
+            onClick={() => router.push('/news')}
+          >
+            {t.news}
+          </Button>
           
           <Button
             variant="ghost"
             className="text-purple-600 hover:text-purple-800 hover:bg-purple-100"
             onClick={() => router.push('/chat')}
           >
-            {t.chat}
+            Chat
           </Button>
           
           <Button
