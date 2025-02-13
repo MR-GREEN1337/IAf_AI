@@ -17,7 +17,6 @@ import ChatBubble from '@/components/global/ChatBubble';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/global/Header';
 
-
 const Footer = ({ language }: { language: string }) => {
   const t = translations[language as keyof typeof translations];
   
@@ -188,14 +187,8 @@ const LandingPage = () => {
               <DialogContent className="bg-gradient-to-br from-white to-pink-50 max-w-[90vw] sm:max-w-2xl mx-4 rounded-lg shadow-lg">
                 {selectedPartner && (
                   <DialogHeader>
-                    <DialogTitle className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
-                      {partners[selectedPartner as keyof typeof partners].name[language as keyof typeof translations]}
-                    </DialogTitle>
-                    <DialogDescription className="mt-4 text-base sm:text-lg text-gray-700">
-                      {partners[selectedPartner as keyof typeof partners].description[language as keyof typeof translations]}
-                    </DialogDescription>
-                    <div className="mt-6 flex justify-center">
-                      <a href={partners[selectedPartner as keyof typeof partners].website} target="_blank" rel="noopener noreferrer">
+                    <div className="flex flex-col sm:flex-row items-center sm:items-start">
+                      <a href={partners[selectedPartner as keyof typeof partners].website} target="_blank" rel="noopener noreferrer" className="sm:mr-6 mb-4 sm:mb-0">
                         <motion.img
                           src={selectedPartner}
                           alt={partners[selectedPartner as keyof typeof partners].name[language as keyof typeof translations]}
@@ -205,9 +198,17 @@ const LandingPage = () => {
                           transition={{ duration: 0.5 }}
                         />
                       </a>
-                    </div>
-                    <div className="mt-6 text-base sm:text-lg text-gray-700">
-                      {partners[selectedPartner as keyof typeof partners]?.detaille?.[language as keyof typeof translations]}
+                      <div>
+                        <DialogTitle className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+                          {partners[selectedPartner as keyof typeof partners].name[language as keyof typeof translations]}
+                        </DialogTitle>
+                        <DialogDescription className="mt-4 text-base sm:text-lg text-gray-700">
+                          <strong>Description:</strong> {partners[selectedPartner as keyof typeof partners].description[language as keyof typeof translations]}
+                        </DialogDescription>
+                        <div className="mt-6 text-base sm:text-lg text-gray-700">
+                          <strong>Détails:</strong> {partners[selectedPartner as keyof typeof partners]?.detaille?.[language as keyof typeof translations]}
+                        </div>
+                      </div>
                     </div>
                   </DialogHeader>
                 )}
@@ -223,7 +224,7 @@ const LandingPage = () => {
         <Footer language={language} />
       </div>
     </>
-      );
+  );
 };
 
 export default LandingPage;
