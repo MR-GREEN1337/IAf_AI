@@ -19,10 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { Users, Award, Calendar, Target, Linkedin } from 'lucide-react';
 import Image from 'next/image';
 
-const AboutPage = () => {
-  const [selectedYear, setSelectedYear] = useState('2023-2024');
-  
-  const teamMembers = {
+export const teamMembers = {
     "Bureau Restreint": [
       {
         name: "RECHON-REGUET Emma",
@@ -77,6 +74,9 @@ const AboutPage = () => {
       }
     ]
   };
+
+const AboutPage = () => {
+  const [selectedYear, setSelectedYear] = useState('2023-2024');
 
   const achievements = [
     {

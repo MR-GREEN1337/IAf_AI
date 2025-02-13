@@ -24,7 +24,7 @@ const Header = ({ language, handleLanguageChange }: any) => {
           className="flex items-center gap-4"
         >
           <img
-            src="Logo_IAF.png"
+            src="Logo_IAF.jpeg"
             alt="IAF Logo"
             className="h-8 sm:h-12 w-auto"
           />

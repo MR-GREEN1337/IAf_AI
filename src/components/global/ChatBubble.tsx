@@ -14,6 +14,8 @@ interface Message {
   confidence?: number;
   hasEnoughContext?: boolean;
   isRouteMessage?: boolean;
+  relatedPartners?: any[];
+  relatedMembers?: any[];
 }
 
 interface ChatBubbleProps {
