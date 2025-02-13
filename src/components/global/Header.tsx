@@ -10,10 +10,45 @@ import {
 import { Button } from "@/components/ui/button";
 import { motion } from 'framer-motion';
 import { translations } from '@/lib/types';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 const Header = ({ language, handleLanguageChange }: any) => {
   const router = useRouter();
   const t = (translations as any)[language];
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+  
+    try {
+      console.log("Submitting contact form:", formData);
+  
+      const res = await fetch("api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+  
+      const data = await res.json();
+      console.log("API Response:", data);
+  
+      if (res.ok) {
+        alert("Message sent successfully!");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        console.error("Error from API:", data);
+        alert(`Failed to send message: ${data.error}`);
+      }
+    } catch (error) {
+      console.error("Network Error:", error);
+      alert("An error occurred. Please try again later.");
+    }
+  };
 
   return (
     <nav className="fixed w-full top-0 bg-white/80 backdrop-blur-sm z-50 p-4 shadow-sm">
@@ -64,6 +99,24 @@ const Header = ({ language, handleLanguageChange }: any) => {
           >
             {t.about}
           </Button>
+        {/* Contact Us Button & Dialog */}
+        <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="ghost" className="text-purple-600 hover:text-purple-800 hover:bg-purple-100">{t.contact}</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Contact Us</DialogTitle>
+              </DialogHeader>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <Input name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} required />
+                <Input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange} required />
+                <Input name="subject" placeholder="Subject" value={formData.subject} onChange={handleChange} required />
+                <Textarea name="message" placeholder="Your Message" value={formData.message} onChange={handleChange} required />
+                <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-800 text-white">Send Message</Button>
+              </form>
+            </DialogContent>
+          </Dialog>
         </div>
 
         <Select value={language} onValueChange={handleLanguageChange}>
