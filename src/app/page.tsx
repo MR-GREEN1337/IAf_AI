@@ -1,101 +1,187 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+// Language translations
+const translations = {
+  en: {
+    title: "Engineer in Feminine",
+    subtitle: "Promoting women in engineering",
+    description: "Empowering the next generation of female engineers through mentorship, education, and community.",
+    learnMore: "Learn More",
+    partners: "Our Partners",
+    chatbot: "Chat with us",
+  },
+  fr: {
+    title: "Ingénieur-e Au Féminin",
+    subtitle: "Promouvoir les femmes dans l'ingénierie",
+    description: "Accompagner la prochaine génération d'ingénieures à travers le mentorat, l'éducation et la communauté.",
+    learnMore: "En savoir plus",
+    partners: "Nos Partenaires",
+    chatbot: "Discuter avec nous",
+  }
+};
+
+const LandingPage = () => {
+  const [language, setLanguage] = useState('fr');
+  const [t, setT] = useState(translations.fr);
+
+  useEffect(() => {
+    // Load language preference from localStorage
+    const savedLang = localStorage.getItem('language') || 'fr';
+    setLanguage(savedLang);
+    setT(translations[savedLang as keyof typeof translations]);
+  }, []);
+
+  const handleLanguageChange = (value: string) => {
+    setLanguage(value);
+    setT(translations[value as keyof typeof translations]);
+    localStorage.setItem('language', value);
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0
+    }
+  };
+
+  const logos = [
+    "Logo_CVEC.png",
+    "Logo_Credit_Agricol_Technologies_Services.jpg",
+    "Logo_IAF.png",
+    "Logo_LISTIC.jpg",
+    "Logo_NTN.png",
+    "Logo_Polytech_Annecy_Chambery.svg.png",
+    "Logo_Sopra_Steria.png",
+    "Logo_Ville_Annecy.png"
+  ];
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-pink-50">
+      {/* Navigation */}
+      <nav className="fixed w-full top-0 bg-white/80 backdrop-blur-sm z-50 p-4 shadow-sm">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="text-2xl font-bold text-purple-700"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            IAF
+          </motion.div>
+          
+          <Select value={language} onValueChange={handleLanguageChange}>
+            <SelectTrigger className="w-32">
+              <SelectValue placeholder="Language" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="fr">Français</SelectItem>
+              <SelectItem value="en">English</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </nav>
+
+      {/* Hero Section */}
+      <motion.main
+        className="pt-24 px-4"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            variants={itemVariants}
+            className="text-center mb-16"
+          >
+            <h1 className="text-5xl md:text-6xl font-bold text-purple-800 mb-4">
+              {t.title}
+            </h1>
+            <p className="text-xl md:text-2xl text-purple-600 mb-8">
+              {t.subtitle}
+            </p>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+              {t.description}
+            </p>
+            <Button
+              size="lg"
+              className="bg-purple-600 hover:bg-purple-700 text-white"
+            >
+              {t.learnMore}
+            </Button>
+          </motion.div>
+
+          {/* Partners Section */}
+          <motion.section
+            variants={itemVariants}
+            className="mb-16"
+          >
+            <h2 className="text-3xl font-bold text-center text-purple-800 mb-8">
+              {t.partners}
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {logos.map((logo, index) => (
+                <motion.div
+                  key={logo}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <Card className="overflow-hidden">
+                    <CardContent className="p-4">
+                      <img
+                        src={logo}
+                        alt={`Partner ${index + 1}`}
+                        className="w-full h-24 object-contain"
+                      />
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </motion.section>
+
+          {/* Chatbot Button */}
+          <motion.div
+            className="fixed bottom-8 right-8"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1 }}
+          >
+            <Button
+              size="lg"
+              className="bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-lg"
+            >
+              {t.chatbot}
+            </Button>
+          </motion.div>
+        </div>
+      </motion.main>
     </div>
   );
-}
+};
+
+export default LandingPage;
