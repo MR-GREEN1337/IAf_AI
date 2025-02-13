@@ -41,6 +41,7 @@ export interface Translations {
   followUs: string;
   chatWithUs: string;
   news: string;
+  contact: string;
 }
 
 // translations.ts
@@ -68,6 +69,7 @@ export const translations: Record<'en' | 'fr', Translations> = {
     followUs: "Follow Us",
     chatWithUs: "Chat with Us",
     news: "News",
+    contact: "Contact Us"
   },
   fr: {
     title: "Ingénieur-e Au Féminin",
@@ -91,7 +93,8 @@ export const translations: Record<'en' | 'fr', Translations> = {
     ourMission: "Notre Mission",
     followUs: "Suivez-nous",
     chatWithUs: "Discuter avec nous",
-    news: "Actualités"
+    news: "Actualités",
+    contact: "Contactez-nous"
   }
 };
 
