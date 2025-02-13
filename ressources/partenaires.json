@@ -1,0 +1,28 @@
+{
+    "posts": [
+      {
+        "id": "1",
+        "caption": "credit agricole"
+      },
+      {
+        "id": "2",
+        "caption": "CVEC"
+      },      {
+        "id": "3",
+        "caption": "LISTIC"
+      },      {
+        "id": "4",
+        "caption": "NTN"
+      },      {
+        "id": "5",
+        "caption": "Polytech Annecy-Chambery"
+      },      {
+        "id": "6",
+        "caption": "Sopra Steria"
+      },      {
+        "id": "7",
+        "caption": "Annecy"
+      }
+    ]
+  }
+  
