@@ -1,0 +1,19 @@
+{
+    "association": "Ingénieure au Féminin - Polytech Annecy-Chambéry",
+    "founded_year": 2021,
+    "bureau_restreint": {
+        "president": "Emma Rechon-Reguet",
+        "vice_president": "Julie Fabre",
+        "secretary": "Alyssa Belleville",
+        "treasurer": "Louna Camas"
+    },
+    "bureau_elargi": {
+        "pole_conferences": [
+            "Carla Marie Da Silva",
+            "Juliette Lompret-Brych"
+        ],
+        "pole_communication": [
+            "Cyprien Guitton"
+        ]
+    }
+}
