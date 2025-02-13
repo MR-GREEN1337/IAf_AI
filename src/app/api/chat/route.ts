@@ -621,6 +621,8 @@ export async function POST(req: Request): Promise<NextResponse<ChatResponse>> {
       searchResults
     };
 
+    console.log(enhancedResponse);
+
     return NextResponse.json(enhancedResponse);
 
   } catch (error) {
