@@ -76,7 +76,7 @@ const Footer = ({ language }: { language: string }) => {
       
       <div className="max-w-7xl mx-auto px-4 mt-12 pt-8 border-t border-white/10">
         <p className="text-center text-sm text-white/60">
-          © 2024 Ingénieur-e Au Féminin. {t.allRights}
+          © 2025 Ingénieur-e Au Féminin. {t.allRights}
         </p>
       </div>
     </footer>
@@ -106,7 +106,7 @@ const LandingPage = () => {
   };
   const router = useRouter();
   const handleRouteMessage = () => {
-    router.push('/a-propos');
+    router.push('/chat');
   };
   return (
     <>
@@ -144,10 +144,15 @@ const LandingPage = () => {
             </p>
             <Button
               size="lg"
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white hover:bg-gradient-to-r hover:from-purple-700 hover:to-pink-700 hover:scale-105 transition-all duration-300"
-              onClick={handleRouteMessage}
+              onClick={() => router.push('/chat')}
+              className="group bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white hover:scale-105 transition-all duration-300 relative overflow-hidden shadow-lg hover:shadow-xl"
             >
-              {t.learnMore}
+              <span className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 animate-pulse"></span>
+              <span className="relative flex items-center gap-2">
+                {t.chatWithUs}
+                <MessageCircle className="w-5 h-5 animate-bounce group-hover:animate-none group-hover:scale-110 transition-transform duration-300" />
+              </span>
+              <span className="absolute inset-0 -z-10 bg-gradient-to-r from-purple-600/50 to-pink-600/50 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
             </Button>
           </motion.div>
 

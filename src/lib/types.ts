@@ -35,6 +35,7 @@ export interface Partner {
     joinUs: string;
     ourMission: string;
     followUs: string;
+    chatWithUs: string;
   }
   
   // translations.ts
@@ -59,7 +60,8 @@ export interface Partner {
       allRights: "All rights reserved.",
       joinUs: "Join Our Community",
       ourMission: "Our Mission",
-      followUs: "Follow Us"
+      followUs: "Follow Us",
+      chatWithUs: "Chat with Us"
     },
     fr: {
       title: "Ingénieur-e Au Féminin",
@@ -81,7 +83,8 @@ export interface Partner {
       allRights: "Tous droits réservés.",
       joinUs: "Rejoignez-nous",
       ourMission: "Notre Mission",
-      followUs: "Suivez-nous"
+      followUs: "Suivez-nous",
+      chatWithUs: "Discuter avec nous"
     }
   };
   
