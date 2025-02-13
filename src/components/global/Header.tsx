@@ -1,4 +1,6 @@
-import React from 'react';
+"use client"
+
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Select,
@@ -13,6 +15,7 @@ import { translations } from '@/lib/types';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import ContactDialog from './ContactDialog';
 
 const Header = ({ language, handleLanguageChange }: any) => {
   const router = useRouter();
@@ -99,24 +102,7 @@ const Header = ({ language, handleLanguageChange }: any) => {
           >
             {t.about}
           </Button>
-        {/* Contact Us Button & Dialog */}
-        <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="ghost" className="text-purple-600 hover:text-purple-800 hover:bg-purple-100">{t.contact}</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Contact Us</DialogTitle>
-              </DialogHeader>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <Input name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} required />
-                <Input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange} required />
-                <Input name="subject" placeholder="Subject" value={formData.subject} onChange={handleChange} required />
-                <Textarea name="message" placeholder="Your Message" value={formData.message} onChange={handleChange} required />
-                <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-800 text-white">Send Message</Button>
-              </form>
-            </DialogContent>
-          </Dialog>
+          <ContactDialog t={t} />
         </div>
 
         <Select value={language} onValueChange={handleLanguageChange}>

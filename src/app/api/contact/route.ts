@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     const response = await resend.emails.send({
       from: "onboarding@resend.dev", 
       to: process.env.EMAIL_TO!,
-      reply_to: email,
+      replyTo: email,
       subject: `New Contact Message: ${subject}`,
       html: `<p><strong>From:</strong> ${name} (${email})</p><p>${message}</p>`,
     });
