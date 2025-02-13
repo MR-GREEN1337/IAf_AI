@@ -23,11 +23,13 @@ const Header = ({ language, handleLanguageChange }: any) => {
           animate={{ opacity: 1 }}
           className="flex items-center gap-4"
         >
+            <a href="/">
           <img
             src="Logo_IAF.jpeg"
             alt="IAF Logo"
             className="h-8 sm:h-12 w-auto"
           />
+          </a>
         </motion.div>
         
         <div className="flex items-center gap-4 order-last md:order-none w-full md:w-auto justify-center">

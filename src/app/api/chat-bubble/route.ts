@@ -81,7 +81,7 @@ const getSystemPrompt = (lang: Language, isInitialMessage: boolean = false): str
   {
     "message": string (${isInitialMessage ? "welcome message" : "your response"}),
     "hasEnoughContext": boolean (indicates if you have enough information to provide an accurate response),
-    "suggestedQuestions": array (3 relevant ${isInitialMessage ? "conversation starter" : "follow-up"} questions),
+    "suggestedQuestions": array (3 relevant ${isInitialMessage ? "conversation starter" : "follow-up"} questions that user might enter),
     "confidence": number (confidence level from 0 to 1)
   }
 
@@ -143,13 +143,17 @@ export async function POST(req: Request) {
     console.error('Chat API Error:', error);
     
     const errorResponse: ChatResponse = {
+        //@ts-ignore
       message: language === 'fr' 
         ? "Désolé, je n'ai pas pu traiter votre demande. Veuillez réessayer." 
         : "Sorry, I couldn't process your request. Please try again.",
       hasEnoughContext: false,
       suggestedQuestions: [
+        //@ts-ignore
         language === 'fr' ? "Pouvez-vous reformuler votre question ?" : "Can you rephrase your question?",
+        //@ts-ignore
         language === 'fr' ? "Que souhaitez-vous savoir sur IAF ?" : "What would you like to know about IAF?",
+        //@ts-ignore
         language === 'fr' ? "Puis-je vous aider autrement ?" : "Can I help you with something else?"
       ],
       confidence: 0,

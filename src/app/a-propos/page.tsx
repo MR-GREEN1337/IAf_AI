@@ -18,6 +18,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Users, Award, Calendar, Target, Linkedin } from 'lucide-react';
 import Image from 'next/image';
+import Header from '@/components/global/Header';
 
 export const teamMembers = {
     "Bureau Restreint": [
@@ -77,6 +78,7 @@ export const teamMembers = {
 
 const AboutPage = () => {
   const [selectedYear, setSelectedYear] = useState('2023-2024');
+  const [language, setLanguage] = useState('fr');
 
   const achievements = [
     {
@@ -113,6 +115,7 @@ const AboutPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-white pb-20">
+    <Header language={language} handleLanguageChange={setLanguage} />
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 relative overflow-hidden">
         <motion.div

@@ -158,61 +158,66 @@ const LandingPage = () => {
 
           {/* Partners Grid - Responsive improvements */}
           <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="mb-16"
-          >
-            <h2 className="text-2xl sm:text-3xl font-bold text-center bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-12">
-              {t.partners}
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-8">
-              {Object.keys(partners).map((logo, index) => (
-                <motion.div
-                  key={logo}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.05 }}
-                  className="cursor-pointer"
-                  onClick={() => setSelectedPartner(logo)}
-                >
-                  <Card className="overflow-hidden bg-white/50 backdrop-blur-sm hover:bg-white/80 transition-all duration-300">
-                    <CardContent className="p-4 sm:p-6">
-                      <img
-                        src={logo}
-                        alt={partners[logo as keyof typeof partners].name[language as keyof typeof translations]}
-                        className="w-full h-16 sm:h-24 object-contain"
-                      />
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ delay: 0.2 }}
+  className="mb-16"
+>
+  <h2 className="text-2xl sm:text-3xl font-bold text-center bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-12">
+    {t.partners}
+  </h2>
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-8">
+    {Object.keys(partners).map((logo, index) => (
+      <motion.div
+        key={logo}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: index * 0.1 }}
+        whileHover={{ scale: 1.1, rotate: 2 }}
+        className="cursor-pointer transform transition-transform duration-300"
+        onClick={() => setSelectedPartner(logo)}
+      >
+        <Card className="overflow-hidden bg-white/50 backdrop-blur-sm hover:bg-white/80 transition-all duration-300 rounded-lg shadow-lg hover:shadow-xl">
+          <CardContent className="p-4 sm:p-6">
+            <img
+              src={logo}
+              alt={partners[logo as keyof typeof partners].name[language as keyof typeof translations]}
+              className="w-full h-20 sm:h-28 object-contain"
+            />
+          </CardContent>
+        </Card>
+      </motion.div>
+    ))}
+  </div>
+</motion.section>
 
           {/* Partner Dialog - Now responsive */}
           <Dialog open={!!selectedPartner} onOpenChange={() => setSelectedPartner(null)}>
-            <DialogContent className="bg-gradient-to-br from-white to-pink-50 max-w-[90vw] sm:max-w-2xl mx-4">
-              {selectedPartner && (
-                <DialogHeader>
-                  <DialogTitle className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                    {partners[selectedPartner as keyof typeof partners].name[language as keyof typeof translations]}
-                  </DialogTitle>
-                  <DialogDescription className="mt-4 text-base sm:text-lg">
-                    {partners[selectedPartner as keyof typeof partners].description[language as keyof typeof translations]}
-                  </DialogDescription>
-                  <div className="mt-6 flex justify-center">
-                    <img
-                      src={selectedPartner}
-                      alt={partners[selectedPartner as keyof typeof partners].name[language as keyof typeof translations]}
-                      className="max-h-32 sm:max-h-48 object-contain"
-                    />
-                  </div>
-                </DialogHeader>
-              )}
-            </DialogContent>
-          </Dialog>
+  <DialogContent className="bg-gradient-to-br from-white to-pink-50 max-w-[90vw] sm:max-w-2xl mx-4 rounded-lg shadow-lg">
+    {selectedPartner && (
+      <DialogHeader>
+        <DialogTitle className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+          {partners[selectedPartner as keyof typeof partners].name[language as keyof typeof translations]}
+        </DialogTitle>
+        <DialogDescription className="mt-4 text-base sm:text-lg text-gray-700">
+          {partners[selectedPartner as keyof typeof partners].description[language as keyof typeof translations]}
+        </DialogDescription>
+        <div className="mt-6 flex justify-center">
+          <a href={partners[selectedPartner as keyof typeof partners].website} target="_blank" rel="noopener noreferrer">
+            <motion.img
+              src={selectedPartner}
+              alt={partners[selectedPartner as keyof typeof partners].name[language as keyof typeof translations]}
+              className="max-h-48 sm:max-h-64 object-contain rounded-lg shadow-md"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+            />
+          </a>
+        </div>
+      </DialogHeader>
+    )}
+  </DialogContent>
+</Dialog>
 
           {/* Chatbot Button - Responsive positioning */}
           <ChatBubble language={language as any} />
