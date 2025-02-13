@@ -20,6 +20,9 @@ import {
 } from "@/components/ui/dialog";
 import { Github, Linkedin, Mail, MessageCircle } from 'lucide-react';
 import { partners, translations } from '@/lib/types';
+import ChatBubble from '@/components/global/ChatBubble';
+import { useRouter } from 'next/navigation';
+import Header from '@/components/global/Header';
 
 
 const Footer = ({ language }: { language: string }) => {
@@ -80,196 +83,6 @@ const Footer = ({ language }: { language: string }) => {
   );
 };
 
-// Update the ChatBubble component
-const ChatBubble = ({ language }: { language: 'fr' | 'en' }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { 
-      type: 'bot', 
-      text: language === 'fr' 
-        ? "Bonjour! Je suis IAF Bot, comment puis-je vous aider?"
-        : "Hello! I'm IAF Bot, how can I help you?" 
-    }
-  ]);
-  const [inputValue, setInputValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!inputValue.trim() || isLoading) return;
-
-    const userMessage = inputValue;
-    setInputValue('');
-    setMessages(prev => [...prev, { type: 'user', text: userMessage }]);
-    setIsLoading(true);
-
-    try {
-      const response = await fetch('/api/chat-bubble', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: userMessage,
-          language
-        }),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        setMessages(prev => [...prev, { type: 'bot', text: data.message }]);
-      } else {
-        setMessages(prev => [...prev, { 
-          type: 'bot', 
-          text: language === 'fr'
-            ? "Désolé, je n'ai pas pu traiter votre demande. Veuillez réessayer."
-            : "Sorry, I couldn't process your request. Please try again."
-        }]);
-      }
-    } catch (error) {
-      console.error('Chat error:', error);
-      setMessages(prev => [...prev, { 
-        type: 'bot', 
-        text: language === 'fr'
-          ? "Une erreur s'est produite. Veuillez réessayer plus tard."
-          : "An error occurred. Please try again later."
-      }]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  return (
-    <motion.div
-      className="fixed bottom-4 sm:bottom-8 right-4 sm:right-8 z-40 flex flex-col items-end"
-      initial={false}
-    >
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ duration: 0.2 }}
-            className="bg-white rounded-lg shadow-lg mb-4 w-[320px] sm:w-[380px] overflow-hidden"
-          >
-            {/* Chat Header */}
-            <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-4">
-              <h3 className="text-white font-semibold">
-                {language === 'fr' ? 'Assistant IAF' : 'IAF Assistant'}
-              </h3>
-            </div>
-
-            {/* Messages Container */}
-            <div className="h-[400px] overflow-y-auto p-4 bg-gradient-to-b from-purple-50 to-pink-50">
-              <div className="space-y-4">
-                {messages.map((message, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: message.type === 'user' ? 20 : -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div
-                      className={`max-w-[80%] p-3 rounded-lg ${
-                        message.type === 'user'
-                          ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-br-none'
-                          : 'bg-white shadow-sm rounded-bl-none'
-                      }`}
-                    >
-                      {message.text}
-                    </div>
-                  </motion.div>
-                ))}
-                {isLoading && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="flex justify-start"
-                  >
-                    <div className="bg-white shadow-sm rounded-lg rounded-bl-none p-3">
-                      <div className="flex space-x-2">
-                        <div className="w-2 h-2 bg-purple-600 rounded-full animate-bounce" />
-                        <div className="w-2 h-2 bg-purple-600 rounded-full animate-bounce delay-150" />
-                        <div className="w-2 h-2 bg-purple-600 rounded-full animate-bounce delay-300" />
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-                <div ref={messagesEndRef} />
-              </div>
-            </div>
-
-            {/* Input Form */}
-            <form onSubmit={handleSubmit} className="p-4 bg-white border-t">
-              <div className="flex space-x-2">
-                <input
-                  type="text"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  placeholder={language === 'fr' ? 'Tapez votre message...' : 'Type your message...'}
-                  className="flex-grow px-4 py-2 border rounded-lg focus:outline-none focus:border-purple-400"
-                  disabled={isLoading}
-                />
-                <Button
-                  type="submit"
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-                  disabled={isLoading}
-                >
-                  <Mail className="h-4 w-4" />
-                </Button>
-              </div>
-            </form>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Chat Button */}
-      <motion.div
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <Button
-          size="lg"
-          onClick={() => setIsOpen(!isOpen)}
-          className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full shadow-lg flex items-center gap-2"
-        >
-          <motion.div
-            initial={false}
-            animate={{ width: isOpen ? 'auto' : '20px' }}
-            className="flex items-center gap-2"
-          >
-            <MessageCircle size={20} />
-            <motion.span
-              initial={{ width: 0, opacity: 0 }}
-              animate={{ 
-                width: isOpen ? 'auto' : 0,
-                opacity: isOpen ? 1 : 0
-              }}
-              className="hidden sm:inline whitespace-nowrap overflow-hidden"
-            >
-              {isOpen 
-                ? (language === 'fr' ? 'Fermer' : 'Close')
-                : (language === 'fr' ? 'Discuter avec nous' : 'Chat with us')
-              }
-            </motion.span>
-          </motion.div>
-        </Button>
-      </motion.div>
-    </motion.div>
-  );
-};
-
 const LandingPage = () => {
   const [language, setLanguage] = useState('fr');
   const [t, setT] = useState(translations.fr);
@@ -291,36 +104,17 @@ const LandingPage = () => {
     setT(translations[newLanguage]);
     localStorage.setItem('language', newLanguage);
   };
-
+  const router = useRouter();
+  const handleRouteMessage = () => {
+    router.push('/a-propos');
+  };
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-100 overflow-x-hidden">
+    <>
+          <div className="fixed inset-0 bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-100 -z-10" />
+
+          <div className="relative min-h-screen overflow-x-hidden">
       
-      {/* Navigation - Now more responsive */}
-      <nav className="fixed w-full top-0 bg-white/80 backdrop-blur-sm z-50 p-4 shadow-sm">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex items-center gap-4"
-          >
-            <img
-              src="Logo_IAF.png"
-              alt="IAF Logo"
-              className="h-8 sm:h-12 w-auto"
-            />
-          </motion.div>
-          
-          <Select value={language} onValueChange={handleLanguageChange}>
-            <SelectTrigger className="w-32">
-              <SelectValue placeholder="Language" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="fr">Français</SelectItem>
-              <SelectItem value="en">English</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </nav>
+      <Header language={language} handleLanguageChange={handleLanguageChange} />
 
       {/* Hero Section - Improved responsiveness */}
       <main className="pt-24 sm:pt-32 px-4">
@@ -350,7 +144,8 @@ const LandingPage = () => {
             </p>
             <Button
               size="lg"
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white hover:bg-gradient-to-r hover:from-purple-700 hover:to-pink-700 hover:scale-105 transition-all duration-300"
+              onClick={handleRouteMessage}
             >
               {t.learnMore}
             </Button>
@@ -422,6 +217,8 @@ const LandingPage = () => {
       {/* Footer */}
       <Footer language={language} />
     </div>
+    </>
+
   );
 };
 
