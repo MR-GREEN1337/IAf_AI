@@ -214,6 +214,9 @@ const LandingPage = () => {
             />
           </a>
         </div>
+        <div className="mt-6 text-base sm:text-lg text-gray-700">
+          {partners[selectedPartner as keyof typeof partners]?.detaille[language as keyof typeof translations]}
+        </div>
       </DialogHeader>
     )}
   </DialogContent>
