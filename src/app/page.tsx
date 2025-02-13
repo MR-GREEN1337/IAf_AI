@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { loadSlim } from "tsparticles-slim";
 import {
   Select,
   SelectContent,
@@ -34,7 +33,7 @@ const Footer = ({ language }: { language: string }) => {
           <div className="flex flex-col space-y-2">
             <a href="mailto:contact@iaf.fr" className="flex items-center space-x-2 hover:text-pink-300 transition-colors">
               <Mail size={20} />
-              <span>contact@iaf.fr</span>
+              <span>inge.feminin.polytech.ac@gmail.com</span>
             </a>
             <a href="#" className="flex items-center space-x-2 hover:text-pink-300 transition-colors">
               <Linkedin size={20} />
@@ -81,12 +80,19 @@ const Footer = ({ language }: { language: string }) => {
   );
 };
 
-const ChatBubble = () => {
+// Update the ChatBubble component
+const ChatBubble = ({ language }: { language: 'fr' | 'en' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { type: 'bot', text: "Bonjour! Je suis IAF Bot, comment puis-je vous aider?" }
+    { 
+      type: 'bot', 
+      text: language === 'fr' 
+        ? "Bonjour! Je suis IAF Bot, comment puis-je vous aider?"
+        : "Hello! I'm IAF Bot, how can I help you?" 
+    }
   ]);
   const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -97,20 +103,50 @@ const ChatBubble = () => {
     scrollToBottom();
   }, [messages]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim() || isLoading) return;
 
-    setMessages(prev => [...prev, { type: 'user', text: inputValue }]);
+    const userMessage = inputValue;
     setInputValue('');
+    setMessages(prev => [...prev, { type: 'user', text: userMessage }]);
+    setIsLoading(true);
 
-    // Simulate bot response
-    setTimeout(() => {
+    try {
+      const response = await fetch('/api/chat-bubble', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: userMessage,
+          language
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setMessages(prev => [...prev, { type: 'bot', text: data.message }]);
+      } else {
+        setMessages(prev => [...prev, { 
+          type: 'bot', 
+          text: language === 'fr'
+            ? "Désolé, je n'ai pas pu traiter votre demande. Veuillez réessayer."
+            : "Sorry, I couldn't process your request. Please try again."
+        }]);
+      }
+    } catch (error) {
+      console.error('Chat error:', error);
       setMessages(prev => [...prev, { 
         type: 'bot', 
-        text: "Je suis là pour répondre à vos questions sur Ingénieur-e Au Féminin!"
+        text: language === 'fr'
+          ? "Une erreur s'est produite. Veuillez réessayer plus tard."
+          : "An error occurred. Please try again later."
       }]);
-    }, 1000);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -129,7 +165,9 @@ const ChatBubble = () => {
           >
             {/* Chat Header */}
             <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-4">
-              <h3 className="text-white font-semibold">IAF Assistant</h3>
+              <h3 className="text-white font-semibold">
+                {language === 'fr' ? 'Assistant IAF' : 'IAF Assistant'}
+              </h3>
             </div>
 
             {/* Messages Container */}
@@ -153,6 +191,21 @@ const ChatBubble = () => {
                     </div>
                   </motion.div>
                 ))}
+                {isLoading && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="flex justify-start"
+                  >
+                    <div className="bg-white shadow-sm rounded-lg rounded-bl-none p-3">
+                      <div className="flex space-x-2">
+                        <div className="w-2 h-2 bg-purple-600 rounded-full animate-bounce" />
+                        <div className="w-2 h-2 bg-purple-600 rounded-full animate-bounce delay-150" />
+                        <div className="w-2 h-2 bg-purple-600 rounded-full animate-bounce delay-300" />
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
                 <div ref={messagesEndRef} />
               </div>
             </div>
@@ -164,12 +217,14 @@ const ChatBubble = () => {
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  placeholder="Tapez votre message..."
+                  placeholder={language === 'fr' ? 'Tapez votre message...' : 'Type your message...'}
                   className="flex-grow px-4 py-2 border rounded-lg focus:outline-none focus:border-purple-400"
+                  disabled={isLoading}
                 />
                 <Button
                   type="submit"
                   className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                  disabled={isLoading}
                 >
                   <Mail className="h-4 w-4" />
                 </Button>
@@ -203,7 +258,10 @@ const ChatBubble = () => {
               }}
               className="hidden sm:inline whitespace-nowrap overflow-hidden"
             >
-              {isOpen ? 'Fermer' : 'Chat with us'}
+              {isOpen 
+                ? (language === 'fr' ? 'Fermer' : 'Close')
+                : (language === 'fr' ? 'Discuter avec nous' : 'Chat with us')
+              }
             </motion.span>
           </motion.div>
         </Button>
@@ -357,7 +415,7 @@ const LandingPage = () => {
           </Dialog>
 
           {/* Chatbot Button - Responsive positioning */}
-          <ChatBubble />
+          <ChatBubble language={language as any} />
         </div>
       </main>
 
