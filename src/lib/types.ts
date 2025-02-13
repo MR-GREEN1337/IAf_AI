@@ -8,6 +8,10 @@ export interface Partner {
       en: string;
     };
     website?: string;
+    detaille?: {
+      fr: string;
+      en: string;
+    };
   }
   
   export interface Partners {
@@ -99,7 +103,11 @@ export interface Partner {
         fr: "La Contribution de vie étudiante et de campus (CVEC) est destinée à favoriser l'accueil et l'accompagnement social, sanitaire, culturel et sportif des étudiants. Elle soutient les initiatives visant à améliorer les conditions de vie sur les campus.",
         en: "The Student and Campus Life Contribution (CVEC) is intended to promote social, health, cultural and sports support for students. It supports initiatives aimed at improving living conditions on campuses."
       },
-      website: "https://cvec.etudiant.gouv.fr/"
+      website: "https://cvec.etudiant.gouv.fr/",
+      detaille: {
+        fr: "",
+        en: ""
+      }
     },
     "Logo_Credit_Agricol_Technologies_Services.jpg": {
       name: {
@@ -110,7 +118,12 @@ export interface Partner {
         fr: "CATS est l'entité technologique du groupe Crédit Agricole, fournissant des solutions IT innovantes pour répondre aux besoins de transformation digitale du groupe et de ses clients. Leader dans le développement de solutions bancaires numériques.",
         en: "CATS is the technological entity of the Credit Agricole group, providing innovative IT solutions to meet the digital transformation needs of the group and its clients. Leader in the development of digital banking solutions."
       },
-      website: "https://www.credit-agricole.fr/"
+      
+      website: "https://www.credit-agricole.fr/",
+      detaille: {
+        fr: "",
+        en: ""
+      }
     },
     "Logo_LISTIC.jpg": {
       name: {
@@ -121,7 +134,11 @@ export interface Partner {
         fr: "Le Laboratoire d'Informatique, Systèmes, Traitement de l'Information et de la Connaissance (LISTIC) est une unité de recherche de l'Université Savoie Mont Blanc, spécialisée dans les domaines de l'intelligence artificielle et du traitement des données.",
         en: "The Laboratory of Computer Science, Systems, Information and Knowledge Processing (LISTIC) is a research unit of Savoie Mont Blanc University, specialized in artificial intelligence and data processing."
       },
-      website: "https://www.univ-smb.fr/listic/"
+      website: "https://www.univ-smb.fr/listic/",
+      detaille: {
+        fr: "",
+        en: ""
+      }
     },
     "Logo_NTN.png": {
       name: {
@@ -132,7 +149,11 @@ export interface Partner {
         fr: "Leader mondial dans la conception, le développement et la fabrication de roulements, solutions linéaires, et composants automobiles. NTN-SNR innove constamment pour répondre aux défis de l'industrie moderne.",
         en: "Global leader in the design, development and manufacture of bearings, linear solutions, and automotive components. NTN-SNR constantly innovates to meet the challenges of modern industry."
       },
-      website: "https://www.ntn-snr.com/"
+      website: "https://www.ntn-snr.com/",
+      detaille: {
+        fr: "",
+        en: ""
+      }
     },
     "Logo_Polytech_Annecy_Chambery.svg.png": {
       name: {
@@ -143,7 +164,11 @@ export interface Partner {
         fr: "École d'ingénieurs publique membre du réseau Polytech, formant des ingénieurs dans divers domaines technologiques. Reconnue pour son excellence académique et ses liens étroits avec l'industrie.",
         en: "Public engineering school member of the Polytech network, training engineers in various technological fields. Recognized for its academic excellence and close ties with industry."
       },
-      website: "https://www.polytech.univ-smb.fr/"
+      website: "https://www.polytech.univ-smb.fr/",
+      detaille: {
+        fr: "",
+        en: ""
+      }
     },
     "Logo_Sopra_Steria.png": {
       name: {
@@ -154,7 +179,11 @@ export interface Partner {
         fr: "Leader européen de la transformation digitale, proposant des services de conseil, solutions digitales et édition de logiciels. Sopra Steria accompagne ses clients dans leur transformation numérique et leur développement durable.",
         en: "European leader in digital transformation, offering consulting services, digital solutions and software publishing. Sopra Steria supports its clients in their digital transformation and sustainable development."
       },
-      website: "https://www.soprasteria.com/"
+      website: "https://www.soprasteria.com/",
+      detaille: {
+        fr: "",
+        en: ""
+      }
     },
     "Logo_Ville_Annecy.png": {
       name: {
@@ -165,6 +194,10 @@ export interface Partner {
         fr: "Capitale de la Haute-Savoie, ville dynamique soutenant l'innovation et l'éducation. Annecy s'engage activement dans le développement des compétences et l'égalité des chances dans les domaines technologiques.",
         en: "Capital of Haute-Savoie, a dynamic city supporting innovation and education. Annecy is actively involved in skills development and equal opportunities in technological fields."
       },
-      website: "https://www.annecy.fr/"
+      website: "https://www.annecy.fr/",
+      detaille: {
+        fr: "",
+        en: ""
+      }
     }
   };
