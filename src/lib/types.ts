@@ -110,7 +110,7 @@ export interface Partner {
         fr: "CATS est l'entité technologique du groupe Crédit Agricole, fournissant des solutions IT innovantes pour répondre aux besoins de transformation digitale du groupe et de ses clients. Leader dans le développement de solutions bancaires numériques.",
         en: "CATS is the technological entity of the Credit Agricole group, providing innovative IT solutions to meet the digital transformation needs of the group and its clients. Leader in the development of digital banking solutions."
       },
-      website: "https://www.cats.fr/"
+      website: "https://www.credit-agricole.fr/"
     },
     "Logo_LISTIC.jpg": {
       name: {

@@ -193,26 +193,31 @@ const LandingPage = () => {
 
           {/* Partner Dialog - Now responsive */}
           <Dialog open={!!selectedPartner} onOpenChange={() => setSelectedPartner(null)}>
-            <DialogContent className="bg-gradient-to-br from-white to-pink-50 max-w-[90vw] sm:max-w-2xl mx-4">
-              {selectedPartner && (
-                <DialogHeader>
-                  <DialogTitle className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                    {partners[selectedPartner as keyof typeof partners].name[language as keyof typeof translations]}
-                  </DialogTitle>
-                  <DialogDescription className="mt-4 text-base sm:text-lg">
-                    {partners[selectedPartner as keyof typeof partners].description[language as keyof typeof translations]}
-                  </DialogDescription>
-                  <div className="mt-6 flex justify-center">
-                    <img
-                      src={selectedPartner}
-                      alt={partners[selectedPartner as keyof typeof partners].name[language as keyof typeof translations]}
-                      className="max-h-32 sm:max-h-48 object-contain"
-                    />
-                  </div>
-                </DialogHeader>
-              )}
-            </DialogContent>
-          </Dialog>
+  <DialogContent className="bg-gradient-to-br from-white to-pink-50 max-w-[90vw] sm:max-w-2xl mx-4 rounded-lg shadow-lg">
+    {selectedPartner && (
+      <DialogHeader>
+        <DialogTitle className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+          {partners[selectedPartner as keyof typeof partners].name[language as keyof typeof translations]}
+        </DialogTitle>
+        <DialogDescription className="mt-4 text-base sm:text-lg text-gray-700">
+          {partners[selectedPartner as keyof typeof partners].description[language as keyof typeof translations]}
+        </DialogDescription>
+        <div className="mt-6 flex justify-center">
+          <a href={partners[selectedPartner as keyof typeof partners].website} target="_blank" rel="noopener noreferrer">
+            <motion.img
+              src={selectedPartner}
+              alt={partners[selectedPartner as keyof typeof partners].name[language as keyof typeof translations]}
+              className="max-h-48 sm:max-h-64 object-contain rounded-lg shadow-md"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+            />
+          </a>
+        </div>
+      </DialogHeader>
+    )}
+  </DialogContent>
+</Dialog>
 
           {/* Chatbot Button - Responsive positioning */}
           <ChatBubble language={language as any} />
